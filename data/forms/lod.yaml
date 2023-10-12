@@ -1,0 +1,15 @@
+- name: Initialize AF for LOD
+  type: ansible
+  playbook: lod_init_af.yaml
+  description: Initialize Ansible Forms for Lab On Demand
+  roles:
+    - admin
+  categories:
+    - Maintenance
+  tileClass: has-background-info-light
+  icon: gears
+  fields: 
+  - name: password
+    type: password
+    default: Netapp1!
+  source: lod.yaml
