@@ -1,0 +1,31 @@
+---
+## Naming facts
+- name: Merge Extravars
+  ansible.builtin.set_fact:
+    lif: "{{ vars_default.lif | default({}) | combine(vars_default.templates[vars_external.template | default('')].lif | combine(vars_external.lif | default({}),  recursive=True) }}"
+    ipspace: "{{ vars_default.ipspace | default({}) | combine(vars_external.ipspace | default({}),  recursive=True) }}"
+    broadcast_domain: "{{ vars_default.broadcast_domain | default({}) | combine(vars_external.broadcast_domain | default({}),  recursive=True) }}"
+    cluster: "{{ vars_default.cluster | default({}) | combine(vars_external.cluster2| default({}),  recursive=True) }}"
+
+# - name: debug lif after merge
+#   debug:
+#     var: lif
+
+- name: Set naming facts
+  ansible.builtin.set_fact      :
+    # ansible_python_interpreter:   /usr/bin/python3
+    netapp_hostname             : "{{ cluster.management_ip }}"
+    netapp_username             : "{{ ontap_username }}"
+    netapp_password             : "{{ ontap_password }}"
+    svm_name                    : "{{ cluster.name     }}"
+    lif_name                    : "{{ lif.name              | default(omit) }}"
+    lif_address                 : "{{ lif.address           | default(omit) }}"
+    lif_netmask                 : "{{ lif.netmask           | default(omit) }}"
+    lif_gateway                 : "{{ lif.gateway           | default(omit) }}"
+    lif_home_node               : "{{ cluster.name }}-01"
+    lif_interface_type          : "{{ lif.interface_type    | default('ip') }}"
+    ipspace_name                : "{{ ipspace.name          | default(omit) }}"
+    lif_home_port               : "{{ lif.port              | default(omit) }}"
+    lif_service_policy          : "{{ lif.service_policy    | default(omit) }}"
+    broadcast_domain_name       : "{{ broadcast_domain.name | default(omit) }}"
+  delegate_to                   : localhost
