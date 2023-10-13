@@ -7,7 +7,6 @@
       password      : "{{ netapp_password }}"
       https         : true
       validate_certs: false
-    task_description: "{{ qtask_description | default('Create Svm [' + svm_name + ']',true) }}"
 
   ## Create svm
 - name: "Creating svm {{ svm_name }}"      
@@ -21,6 +20,7 @@
     max_volumes      : "{{ svm_max_volumes | default(omit) }}"
     subtype          : "{{ svm_subtype     | default(omit) }}"
     ipspace          : "{{ ipspace_name    | default('Default') }}"
+    ignore_rest_unsupported_options: true
     <<               : *auth
   register: create_vserver
   delegate_to: localhost

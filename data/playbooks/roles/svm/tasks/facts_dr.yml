@@ -29,5 +29,4 @@
     svm_root_volume_security_style:         "{{ svm.root_volume_security_style         | default(omit) }}"
     svm_root_volume_percent_snapshot_space: "{{ svm.root_volume_percent_snapshot_space | default(omit) }}"
     svm_root_volume_space_guarantee:        "{{ svm.root_volume_space_guarantee        | default(omit) }}"
-    svm_volume_delete_retention_hours : "{{ svm.volume_delete_retention_hours | default(omit) }}"
   delegate_to: localhost
