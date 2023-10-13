@@ -1,0 +1,20 @@
+---
+## Naming facts
+- name: Merge Extravars
+  ansible.builtin.set_fact:
+    cluster_peer: "{{ vars_default.cluster_peer | default({}) | combine(vars_external.cluster_peer | default({}),  recursive=True) }}"
+    cluster1: "{{ vars_default.cluster1 | default({}) | combine(vars_external.cluster1 | default({}),  recursive=True) }}"
+    cluster2: "{{ vars_default.cluster2 | default({}) | combine(vars_external.cluster2 | default({}),  recursive=True) }}"
+
+- name: Set naming facts
+  ansible.builtin.set_fact:
+    # ansible_python_interpreter:   /usr/bin/python3
+    netapp_hostname                       : "{{ cluster1.management_ip }}"
+    netapp_username                       : "{{ ontap_username }}"
+    netapp_password                       : "{{ ontap_password }}"
+    cluster1_name                         : "{{ cluster1.name                          | default(omit) }}"
+    cluster2_name                         : "{{ cluster2.name                          | default(omit) }}"
+    cluster_peer_cluster1_intercluster_ips: "{{ cluster_peer.cluster1.intercluster_ips | default(omit) }}"
+    cluster_peer_cluster2_intercluster_ips: "{{ cluster_peer.cluster2.intercluster_ips | default(omit) }}"
+    cluster2_management_ip                : "{{ cluster2.management_ip                 | default(omit) }}"
+  delegate_to: localhost

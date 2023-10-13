@@ -10,8 +10,16 @@ vars_default:
   volume:
     space_guarantee: none
     size_unit: b
-    type: dp
     security_style: ntfs
     language: c.utf_8
     snapshot_policy:
       name: none
+  lif:
+    netmask: 255.255.255.0
+    gateway: 192.168.0.1
+    home_port: e0d
+    interface_type: ip
+  ipspace:
+    name: Default
+  broadcast_domain:
+    name: Default

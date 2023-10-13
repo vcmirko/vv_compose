@@ -185,3 +185,15 @@
       group: Resource
       required: true
       model: vars_external.volumes
+    - name: template
+      type: local_out
+      model: vars_external.template
+      expression: "'dr'"
+    - name: ic1
+      type: local_out
+      model: vars_external.cluster1.intercluster_ips
+      expression: "'192.168.0.61'"
+    - name: ic1
+      type: local_out
+      model: vars_external.cluster2.intercluster_ips
+      expression: "'192.168.0.62'"      

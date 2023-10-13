@@ -1,0 +1,21 @@
+---
+
+- set_fact:
+    auth: &auth
+      hostname: "{{ netapp_hostname }}"
+      username: "{{ netapp_username }}"
+      password: "{{ netapp_password }}"
+      https: true
+      validate_certs: false
+    task_description: "{{ qtask_description | default('Create cluster peering ['+cluster1_name+']['+cluster2_name+']',true) }}"
+
+- name: "{{ task_description }}"  
+  netapp.ontap.na_ontap_cluster_peer:
+    state                       : present
+    source_intercluster_lifs    : "{{ cluster_peer_cluster1_intercluster_ips | default(omit) }}"
+    dest_intercluster_lifs      : "{{ cluster_peer_cluster2_intercluster_ips | default(omit) }}"
+    passphrase                  : "Netapp12!"
+    peer_options:    
+      hostname                  : "{{ cluster2_management_ip    | default(omit) }}"
+    encryption_protocol_proposed: tls_psk
+    <<: *auth

@@ -5,8 +5,11 @@
   gather_facts: false
   vars_files:
     - "vars/defaults_lod.yml"
+    - "vars/templates.yml"
 
   roles:
     - { role: af, qtask: facts }  
+    - { role: cluster_peer, qtask: facts }
+    - { role: cluster_peer, qtask: create }      
     - { role: svm, qtask: facts_dr }
     - { role: svm, qtask: create_dr }    

@@ -34,7 +34,7 @@ if [ $? -eq 0 ]; then
                 echo "Moved $src_item to $target_dir"
             else
                 # Copy the source file to the target location
-                cp "$src_item" "$target_dir"
+                cp -i "$src_item" "$target_dir"
                 echo "Copied $src_item to $target_dir"
             fi
         else

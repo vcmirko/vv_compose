@@ -22,8 +22,17 @@
     ipspace          : "{{ ipspace_name    | default('Default') }}"
     ignore_rest_unsupported_options: true
     <<               : *auth
-  register: create_vserver
-  delegate_to: localhost
+  delegate_to: 
+  
+  ## Create svm
+- name: "Update svm {{ svm_name }}"      
+  netapp.ontap.na_ontap_svm:
+    state            : present
+    name             : "{{ svm_name }}"
+    allowed_protocols: "{{ svm_allowed_protocols }}"
+    ignore_rest_unsupported_options: true
+    <<               : *auth
+  delegate_to: localhost  
 
 - name: "Create vserver peer {{ svm.name }} -> {{ svm_name }}"  
   netapp.ontap.na_ontap_vserver_peer:

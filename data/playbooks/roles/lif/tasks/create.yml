@@ -1,0 +1,40 @@
+---
+
+- set_fact:
+    auth: &auth
+      hostname      : "{{ netapp_hostname }}"
+      username      : "{{ netapp_username }}"
+      password      : "{{ netapp_password }}"
+      https         : true
+      validate_certs: false
+
+  ## Create lif
+- name: "Create lif {{ lif_name }}"        
+  na_ontap_interface:
+    state         : present
+    vserver       : "{{ svm_name }}"
+    interface_name: "{{ lif_name }}"
+    address       : "{{ lif_address }}"
+    netmask       : "{{ lif_netmask }}"
+    admin_status  : up
+    use_rest      : always
+    ipspace       : "{{ ipspace_name }}"
+    interface_type: "{{ lif_interface_type }}"
+    is_auto_revert: "{{ lif_is_auto_revert }}"
+    service_policy: "{{ lif_service_policy }}"
+    home_node     : "{{ lif_home_node }}"
+    #home_port     : "{{ lif_home_port }}"
+    broadcast_domain : "{{ broadcast_domain_name | default(omit) }}"
+    <<: *auth
+  when: (lif_name | default(false)) 
+
+  ## Create route
+- name: create route
+  netapp.ontap.na_ontap_net_routes:
+    state      : present
+    vserver    : "{{ svm_name }}"
+    destination: "0.0.0.0/0"
+    gateway    : "{{ lif_gateway }}"
+    <<         : *auth
+  delegate_to: localhost
+  when: (lif_gateway | default(false))

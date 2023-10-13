@@ -1,0 +1,5 @@
+dr:
+  lif:
+    service_policy: default-intercluster
+  volume:
+    type: dp
