@@ -1,6 +1,7 @@
-dr:
-  lif:
-    service_policy: default-intercluster
-    gateway: ""
-  volume:
-    type: dp
+vars_templates:
+  dr:
+    lif:
+      service_policy: default-intercluster
+      gateway: ""
+    volume:
+      type: dp

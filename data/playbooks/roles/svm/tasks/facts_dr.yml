@@ -4,7 +4,7 @@
   ansible.builtin.set_fact:
     cluster1: "{{ vars_external.cluster1 }}"
     cluster2: "{{ vars_external.cluster2 }}"    
-    svm: "{{ vars_default.svm | default({}) | combine(vars_default.templates[vars_external.template | default('')].svm | default({}), recursive=True) | combine(vars_external.svm | default({}),  recursive=True) }}"
+    svm: "{{ vars_default.svm | default({}) | combine(vars_templates[vars_external.template | default('')].svm | default({}), recursive=True) | combine(vars_external.svm | default({}),  recursive=True) }}"
     volumes : "{{ vars_external.volumes | default([]) }}"
 
 # - name: debug svm after merge
