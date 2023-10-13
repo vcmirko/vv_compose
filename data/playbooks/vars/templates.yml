@@ -1,5 +1,6 @@
 dr:
   lif:
     service_policy: default-intercluster
+    gateway: ""
   volume:
     type: dp
