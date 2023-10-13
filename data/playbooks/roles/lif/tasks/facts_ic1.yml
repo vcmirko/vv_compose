@@ -6,7 +6,7 @@
     ipspace: "{{ vars_default.ipspace | default({}) | combine(vars_external.ipspace | default({}),  recursive=True) }}"
     broadcast_domain: "{{ vars_default.broadcast_domain | default({}) | combine(vars_external.broadcast_domain | default({}),  recursive=True) }}"
     cluster: "{{ vars_default.cluster | default({}) | combine(vars_external.cluster1 | default({}),  recursive=True) }}"
-    cluster_peer: vars_exteral.cluster_peer.cluster1.intercluster_ips
+    cluster_peer: vars_exteral.cluster_peer
 
 # - name: debug lif after merge
 #   debug:
