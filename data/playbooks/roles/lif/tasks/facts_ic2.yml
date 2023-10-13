@@ -17,7 +17,7 @@
     netapp_hostname             : "{{ cluster.management_ip }}"
     netapp_username             : "{{ ontap_username }}"
     netapp_password             : "{{ ontap_password }}"
-    svm_name                    : "{{ cluster.name     }}"
+    svm_name                    : ""
     lif_name                    : "ic01"
     lif_address                 : "{{ cluster_peer.cluster2.intercluster_ips  | default(omit) }}"
     lif_netmask                 : "{{ lif.netmask           | default(omit) }}"
