@@ -6,7 +6,7 @@
       password: "{{ netapp_password }}"
       https: true
       validate_certs: false
-    volume: "{{ vars_default.volume | default({}) | combine(vars_default.templates[vars_external.template | default('')].volume | combine(item | default({}),  recursive=True) }}"    
+    volume: "{{ vars_default.volume | default({}) | combine(vars_default.templates[vars_external.template | default('')].volume  | default({}),  recursive=True) | combine(item | default({}),  recursive=True) }}"    
 
 - name: "Find best aggregate for volume {{ volume.name }}"
   get_best_aggregate:

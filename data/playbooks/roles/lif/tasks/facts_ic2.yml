@@ -2,7 +2,7 @@
 ## Naming facts
 - name: Merge Extravars
   ansible.builtin.set_fact:
-    lif: "{{ vars_default.lif | default({}) | combine(vars_default.templates[vars_external.template | default('')].lif | combine(vars_external.lif | default({}),  recursive=True) }}"
+    lif: "{{ vars_default.lif | default({}) | combine(vars_default.templates[vars_external.template | default('')].lif | default({}),  recursive=True) | combine(vars_external.lif | default({}),  recursive=True) }}"
     ipspace: "{{ vars_default.ipspace | default({}) | combine(vars_external.ipspace | default({}),  recursive=True) }}"
     broadcast_domain: "{{ vars_default.broadcast_domain | default({}) | combine(vars_external.broadcast_domain | default({}),  recursive=True) }}"
     cluster: "{{ vars_default.cluster | default({}) | combine(vars_external.cluster2| default({}),  recursive=True) }}"
