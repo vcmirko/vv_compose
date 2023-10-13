@@ -52,7 +52,7 @@
             "uri": "http://awx.demo.netapp.com",
             "username": "admin",
             "token": "",
-            "password": "{{ password }}!",
+            "password": "{{ password }}",
             "ignore_certs": true,
             "ca_bundle": null,
             "use_credentials": true

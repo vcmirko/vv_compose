@@ -1,0 +1,33 @@
+---
+## Naming facts
+- name: Merge Extravars
+  ansible.builtin.set_fact:
+    cluster1: "{{ vars_external.cluster1 }}"
+    cluster2: "{{ vars_external.cluster2 }}"    
+    svm: "{{ vars_default.svm | default({}) | combine(vars_default.templates[vars_external.template | default('')].svm | default({}), recursive=True) | combine(vars_external.svm | default({}),  recursive=True) }}"
+    volumes : "{{ vars_external.volumes | default([]) }}"
+
+# - name: debug svm after merge
+#   debug:
+#     var: svm
+
+- name: Set naming facts
+  ansible.builtin.set_fact:
+    # ansible_python_interpreter:   /usr/bin/python3
+    netapp_hostname:                "{{ cluster2.management_ip }}"
+    netapp_username:                "{{ ontap_username }}"
+    netapp_password:                "{{ ontap_password }}"
+    svm_name:                       "{{ svm.name }}_dr"
+    svm_allowed_protocols:          "{{ svm.allowed_protocols   | default(omit) }}"
+    svm_snapshot_policy:            "{{ svm.snapshot_policy     | default(omit) }}"
+    svm_options:                    "{{ svm.svm_options         | default([]) | list }}"
+    svm_language:                   "{{ svm.language            | default(omit) }}"
+    svm_comment:                    "{{ svm.comment             | default(omit) }}"
+    svm_max_volumes:                "{{ svm.max_volumes         | default(omit) }}"
+    svm_subtype:                    "{{ svm.subtype             | default(omit) }}"
+    svm_root_volume_name:           "{{ svm.root_volume_name    | default(omit) }}"
+    svm_root_volume_security_style:         "{{ svm.root_volume_security_style         | default(omit) }}"
+    svm_root_volume_percent_snapshot_space: "{{ svm.root_volume_percent_snapshot_space | default(omit) }}"
+    svm_root_volume_space_guarantee:        "{{ svm.root_volume_space_guarantee        | default(omit) }}"
+    svm_volume_delete_retention_hours : "{{ svm.volume_delete_retention_hours | default(omit) }}"
+  delegate_to: localhost

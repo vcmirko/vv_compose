@@ -1,0 +1,73 @@
+---
+- set_fact:
+    auth: &auth
+      hostname: "{{ netapp_hostname }}"
+      username: "{{ netapp_username }}"
+      password: "{{ netapp_password }}"
+      https: true
+      validate_certs: false
+    volume: "{{ vars_default.volume | default({}) | combine(item | default({}),  recursive=True) }}"    
+
+- name: "Find best aggregate for volume {{ volume.name }}"
+  get_best_aggregate:
+      <<: *auth
+      volume_name              : "{{ volume.name | default('') }}"
+      svm_name                 : "{{ svm_name | default('') }}"
+      debug                    : True
+      size_mb                  : "{{ volume.size | default(0) }}"
+      weight_volume_count      : 0
+      weight_used_pct          : 0
+      weight_provisioned_pct   : 0
+      weight_available_space   : 1
+      # threshold_volume_count   : 
+      # threshold_used_pct       : 
+      # threshold_provisioned_pct: 10000000
+      # threshold_available_space: 
+      # exclude_name_regex       : 
+      # include_name_regex       : 
+      # exclude_node_regex       : 
+      # include_node_regex       : 
+      # names_to_exclude         :
+      # nodes_to_exclude         : 
+  register: aggr_lookup
+
+- name: Aggregate info
+  debug:
+    var: aggr_info
+  vars:
+    aggr_info:
+      found: "{{ aggr_lookup.aggregate.name }}"
+      # aggregates: "{{ aggr_lookup.all_aggregates }}" 
+      # candidates: "{{ aggr_lookup.valid_candidates }}"      
+      summary: "{{ aggr_lookup.summary }}"
+
+- name: "Create dp volume {{ volume.name }}"
+  netapp.ontap.na_ontap_volume:
+    state: present
+    vserver:                 "{{ svm_name }}"    
+    name:                    "{{ volume.name }}"
+    aggregate_name:          "{{ aggr_lookup.aggregate.name | default(omit) }}"
+    size:                    "{{ volume.size                   | default(omit) }}"
+    size_unit:               "{{ volume.size_unit              | default(omit) }}"
+    space_guarantee:         "{{ volume.space_guarantee        | default(omit) }}"
+    percent_snapshot_space:  "{{ volume.percent_snapshot_space | default(omit) }}"
+    wait_for_completion:     "{{ volume.wait_for_completion    | default(omit) }}"
+    language:                "{{ volume.language               | default(omit) }}"
+    comment:                 "{{ volume.comment                | default(omit) }}"
+    type:                    "{{ volume.type                   | default(omit) }}"
+    snapshot_policy:         "{{ volume.snapshot_policy.name   | default(omit) }}"
+    <<: *auth
+
+- name: "Create snapmirror for volume {{ volume.name }}"  
+  netapp.ontap.na_ontap_snapmirror:
+    state                       : present
+    source_endpoint             : 
+      cluster                   : "{{ cluster1.name }}"
+      path                      : "{{ svm.name + ':' + volume.name }}"
+    destination_endpoint        : 
+      cluster                   : "{{ cluster2.name }}"
+      path                      : "{{ svm_name + ':' + volume.name }}"
+    schedule                    : "{{ snapmirror_schedule     | default(omit) }}"
+    policy                      : "{{ snapmirror_policy       | default(omit) }}"
+    initialize: True
+    <<: *auth

@@ -1,0 +1,46 @@
+---
+
+- set_fact:
+    auth: &auth
+      hostname      : "{{ netapp_hostname }}"
+      username      : "{{ netapp_username }}"
+      password      : "{{ netapp_password }}"
+      https         : true
+      validate_certs: false
+    task_description: "{{ qtask_description | default('Create Svm [' + svm_name + ']',true) }}"
+
+  ## Create svm
+- name: "Creating svm {{ svm_name }}"      
+  netapp.ontap.na_ontap_svm:
+    state            : present
+    name             : "{{ svm_name }}"
+    allowed_protocols: "{{ svm_allowed_protocols }}"
+    snapshot_policy  : "{{ svm_snapshot_policy }}"
+    language         : "{{ svm_language    | default(omit) }}"
+    comment          : "{{ svm_comment     | default(omit) }}"
+    max_volumes      : "{{ svm_max_volumes | default(omit) }}"
+    subtype          : "{{ svm_subtype     | default(omit) }}"
+    ipspace          : "{{ ipspace_name    | default('Default') }}"
+    <<               : *auth
+  register: create_vserver
+  delegate_to: localhost
+
+- name: "Create vserver peer {{ svm.name }} -> {{ svm_name }}"  
+  netapp.ontap.na_ontap_vserver_peer:
+    state                       : present
+    peer_vserver                : "{{ svm.name     | default(omit) }}"
+    local_name_for_peer         : "{{ svm.name     | default(omit) }}"
+    vserver                     : "{{ svm_name     | default(omit) }}"
+    local_name_for_source       : "{{ svm_name     | default(omit) }}"
+    peer_cluster                : "{{ cluster1.name | default(omit) }}"
+    applications                : ['snapmirror']
+    peer_options:    
+      hostname                  : "{{ cluster1.management_ip    | default(omit) }}"
+    <<: *auth
+
+- name: "Create DP volumes"
+  include_tasks: create_dp_volume.yml
+  loop: "{{ volumes }}"
+  loop_control:
+    label: "Creating dp volume : {{  item.name}}"
+
