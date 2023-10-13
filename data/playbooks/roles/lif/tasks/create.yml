@@ -20,7 +20,7 @@
     use_rest      : always
     ipspace       : "{{ ipspace_name }}"
     interface_type: "{{ lif_interface_type }}"
-    is_auto_revert: "{{ lif_is_auto_revert }}"
+    is_auto_revert: "{{ lif_is_auto_revert | default(omit) }}"
     service_policy: "{{ lif_service_policy }}"
     home_node     : "{{ lif_home_node }}"
     #home_port     : "{{ lif_home_port }}"
