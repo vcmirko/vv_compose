@@ -18,7 +18,7 @@ if [ $? -eq 0 ]; then
     if [ -d "$src_dir" ]; then
         # Remove the target directory if it already exists
         if [ -d "$target_dir/playbooks" ]; then
-            echo "Removing existing target directory: $target_dir"
+            echo "Removing existing target directory: $target_dir/playbooks"
             rm -rf "$target_dir/playbooks"
         fi
 
