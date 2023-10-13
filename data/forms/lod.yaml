@@ -5,11 +5,78 @@
   roles:
     - admin
   categories:
-    - Maintenance
+    - LOD
   tileClass: has-background-info-light
   icon: gears
+  credentials:
+    loopback: loopback
   fields: 
   - name: password
     type: password
     default: Netapp1!
+  source: lod.yaml
+- name: Setup cluster
+  type: awx
+  template: ONTAP Cluster Setup
+  description: ""
+  roles:
+    - public
+  categories: 
+    - LOD
+  tileClass: has-background-info-light
+  icon: bullseye
+  fields:
+    - name: cluster
+      type: text
+      label: Clustername
+      required: true
+      regex:
+        expression: "^cluster[0-9]$"
+        description: "Give a valid clustername"
+    - name: cluster_number
+      type: local
+      expression: "'$(cluster)'.slice(-1)"
+      dependencies:
+      - name: cluster
+        isValid: true    
+    - name: cluster_mgmt
+      type: expression
+      runLocal: true
+      label: Cluster mgmt IP
+      expression: "'192.168.0.10$(cluster_number)'"
+      group: Network
+      line: lif
+      dependencies:
+      - name: cluster
+        isValid: true
+    - name: node_ip
+      type: expression
+      runLocal: true
+      label: Node mgmt ip
+      expression: "'192.168.0.11$(cluster_number)'"
+      group: Network
+      line: lif
+      dependencies:
+      - name: cluster
+        isValid: true
+    - name: gateway
+      type: expression
+      runLocal: true
+      label: Gateway
+      group: Network
+      line: subnet    
+      expression: "'192.168.0.1'"
+      dependencies:
+      - name: cluster
+        isValid: true    
+    - name: subnet
+      type: expression
+      runLocal: true
+      label: Subnet
+      group: Network
+      line: subnet    
+      expression: "'255.255.255.0'"
+      dependencies:
+      - name: cluster
+        isValid: true    
   source: lod.yaml
