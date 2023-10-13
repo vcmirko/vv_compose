@@ -125,7 +125,7 @@
   keepExtravars: true
   verbose: true
   roles:
-    - bsh
+    - public
   description: Create DR Svm and enable DR on volumes
   categories:
     - LOD
@@ -193,7 +193,7 @@
       type: local_out
       model: vars_external.cluster1.intercluster_ips
       expression: "'192.168.0.61'"
-    - name: ic1
+    - name: ic2
       type: local_out
       model: vars_external.cluster2.intercluster_ips
       expression: "'192.168.0.62'"      
