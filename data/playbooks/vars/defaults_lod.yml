@@ -6,6 +6,7 @@ vars_default:
     root_volume_percent_snapshot_space: 0
     root_volume_space_guarantee: none
     root_volume_security_style: ntfs
+    
   volume:
     space_guarantee: none
     size_unit: b
