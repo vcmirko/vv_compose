@@ -7,9 +7,6 @@
     broadcast_domain: "{{ vars_default.broadcast_domain | default({}) | combine(vars_external.broadcast_domain | default({}),  recursive=True) }}"
     cluster: "{{ vars_default.cluster | default({}) | combine(vars_external.cluster2 | default({}),  recursive=True) }}"
     cluster_peer: "{{ vars_external.cluster_peer }}"
-# - name: debug lif after merge
-#   debug:
-#     var: lif
 
 - name: Set naming facts
   ansible.builtin.set_fact      :
@@ -17,7 +14,7 @@
     netapp_hostname             : "{{ cluster.management_ip }}"
     netapp_username             : "{{ ontap_username }}"
     netapp_password             : "{{ ontap_password }}"
-    svm_name                    : ""
+    svm_name                    : "{{ cluster.name }}"
     lif_name                    : "ic01"
     lif_address                 : "{{ cluster_peer.cluster2.intercluster_ips  | default(omit) }}"
     lif_netmask                 : "{{ lif.netmask           | default(omit) }}"
