@@ -7,6 +7,6 @@
 - name: Set naming facts
   ansible.builtin.set_fact      :
     # ansible_python_interpreter:   /usr/bin/python3
-    netapp_hostname             : "{{ cluster.management_ip }}"
+    netapp_hostname             : "{{ node_ip }}"
     netapp_username             : "{{ ontap_username }}"
     netapp_password             : "{{ ontap_password }}"
