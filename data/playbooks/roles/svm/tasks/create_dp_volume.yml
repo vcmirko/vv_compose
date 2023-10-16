@@ -31,15 +31,15 @@
       # nodes_to_exclude         : 
   register: aggr_lookup
 
-- name: Aggregate info
-  debug:
-    var: aggr_info
-  vars:
-    aggr_info:
-      found: "{{ aggr_lookup.aggregate.name }}"
-      # aggregates: "{{ aggr_lookup.all_aggregates }}" 
-      # candidates: "{{ aggr_lookup.valid_candidates }}"      
-      summary: "{{ aggr_lookup.summary }}"
+# - name: Aggregate info
+#   debug:
+#     var: aggr_info
+#   vars:
+#     aggr_info:
+#       found: "{{ aggr_lookup.aggregate.name }}"
+#       # aggregates: "{{ aggr_lookup.all_aggregates }}" 
+#       # candidates: "{{ aggr_lookup.valid_candidates }}"      
+#       summary: "{{ aggr_lookup.summary }}"
 
 - name: "Create dp volume {{ volume.name }}"
   netapp.ontap.na_ontap_volume:
