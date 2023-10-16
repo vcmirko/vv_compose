@@ -41,9 +41,9 @@
 - name: Assign disks
   na_ontap_disks:
     node: "{{ cluster.name }}-01"
-    disk_count: 20
+    disk_count: 13
     min_spares: 0
-    disk_type: FCAL
+    disk_type: SSD
     <<: *auth
 
 - name: create aggr1
