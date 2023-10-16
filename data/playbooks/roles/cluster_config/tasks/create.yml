@@ -19,7 +19,7 @@
       interface_name: "{{ cluster }}_mgmt"
       vserver: "{{ cluster.name }}"
       address: "{{ cluster_mgmt }}"
-      netmask: "{{ subnet }}"
+      netmask: "{{ cluster.subnet }}"
       role: cluster-mgmt
       home_node: "{{ cluster }}-01"
       home_port: e0c
