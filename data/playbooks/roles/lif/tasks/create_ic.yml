@@ -28,13 +28,3 @@
     <<: *auth
   when: (lif_name | default(false)) 
 
-  ## Create route
-- name: create route
-  netapp.ontap.na_ontap_net_routes:
-    state      : present
-    vserver    : "{{ svm_name }}"
-    destination: "0.0.0.0/0"
-    gateway    : "{{ lif_gateway }}"
-    <<         : *auth
-  delegate_to: localhost
-  when: (lif_gateway | default(false))
