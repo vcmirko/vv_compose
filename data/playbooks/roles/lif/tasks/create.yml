@@ -12,7 +12,7 @@
 - name: "Create lif {{ lif_name }}"        
   na_ontap_interface:
     state         : present
-    vserver       : "{{ svm_name | default(omit) }}"
+    #vserver       : "{{ svm_name | default(omit) }}"
     interface_name: "{{ lif_name }}"
     address       : "{{ lif_address }}"
     netmask       : "{{ lif_netmask }}"
