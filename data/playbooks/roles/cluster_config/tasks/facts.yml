@@ -4,6 +4,8 @@
   ansible.builtin.set_fact:
    cluster: "{{ (vars_default.cluster | default({})) | combine(vars_external.cluster2 | default({}) ,  recursive=True) }}"
 
+- debug: var=cluster
+
 - name: Set naming facts
   ansible.builtin.set_fact      :
     # ansible_python_interpreter:   /usr/bin/python3
