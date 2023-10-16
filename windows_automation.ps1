@@ -24,3 +24,20 @@ $updatedData = $jsonData | ConvertTo-Json -Depth 5
 $updatedData | Set-Content $bookmarksFilePath
 
 Write-Host "Bookmark added successfully."
+
+# Define the path to the "preferences" file
+$preferencesFilePath = "C:\Users\Administrator.DEMO\AppData\Local\Google\Chrome\User Data\Default\Preferences"
+
+# Read the JSON content from the file
+$jsonData = Get-Content $preferencesFilePath | ConvertFrom-Json
+
+# Update the URL in the "startup_urls" array
+$jsonData.session.startup_urls[0] = "https://volvo.com"
+
+# Convert the updated JSON data back to a string
+$updatedData = $jsonData | ConvertTo-Json -Depth 5
+
+# Write the updated data back to the "preferences" file
+$updatedData | Set-Content $preferencesFilePath
+
+Write-Host "URL updated successfully."
