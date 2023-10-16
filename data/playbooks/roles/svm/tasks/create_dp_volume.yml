@@ -58,16 +58,16 @@
     snapshot_policy:         "{{ volume.snapshot_policy.name   | default(omit) }}"
     <<: *auth
 
-# - name: "Create snapmirror for volume {{ volume.name }}"  
-#   netapp.ontap.na_ontap_snapmirror:
-#     state                       : present
-#     source_endpoint             : 
-#       cluster                   : "{{ cluster1.name }}"
-#       path                      : "{{ svm.name + ':' + volume.name }}"
-#     destination_endpoint        : 
-#       cluster                   : "{{ cluster2.name }}"
-#       path                      : "{{ svm_name + ':' + volume.name }}"
-#     schedule                    : "{{ snapmirror_schedule     | default(omit) }}"
-#     policy                      : "{{ snapmirror_policy       | default(omit) }}"
-#     initialize: True
-#     <<: *auth
+- name: "Create snapmirror for volume {{ volume.name }}"  
+  netapp.ontap.na_ontap_snapmirror:
+    state                       : present
+    source_endpoint             : 
+      cluster                   : "{{ cluster1.name }}"
+      path                      : "{{ svm.name + ':' + volume.name }}"
+    destination_endpoint        : 
+      cluster                   : "{{ cluster2.name }}"
+      path                      : "{{ svm_name + ':' + volume.name }}"
+    schedule                    : "{{ snapmirror_schedule     | default(omit) }}"
+    policy                      : "{{ snapmirror_policy       | default(omit) }}"
+    initialize: True
+    <<: *auth
