@@ -1,0 +1,6 @@
+---
+## Naming facts
+- name: Merge Extravars
+  ansible.builtin.set_fact:
+   cluster: "{{ (vars_default.cluster | default({})) | combine(vars_external.cluster2 | default({}) ,  recursive=True) }}"
+
