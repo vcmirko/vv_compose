@@ -27,10 +27,10 @@ def b2m(bytes_value, decimal_places=2):
 # Get aggregates using REST API
 def get_aggregates_rest(cluster_mgmt_ip, username, password):
     url = f"https://{cluster_mgmt_ip}/api/storage/aggregates?fields=space.block_storage,volume_count,node.name"
-    # log(f"GET {url}")
+    log(f"GET {url}")
     response = requests.get(url, auth=(username, password), verify=False)
     response_json = response.json()
-    # log(f"RESPONSE {response_json}")
+    log(f"RESPONSE {response_json}")
     return response_json.get("records", [])
 
 # Get volumes using REST API
@@ -85,7 +85,7 @@ def get_aggregates(cluster_mgmt_ip, username, password, requested_size_mb, reque
     # in other case, get the best aggregate
 
     # get all aggregates
-    # log(f"Get data from rest")
+    log(f"Get data from rest")
     aggregates = get_aggregates_rest(cluster_mgmt_ip, username, password)
     volumes = get_volumes_rest(cluster_mgmt_ip, username, password)
         
