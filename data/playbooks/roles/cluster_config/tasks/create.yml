@@ -22,7 +22,7 @@
     netmask: "{{ cluster.subnet }}"
     service_policy: default-management
     ipspace: Default
-    home_node: "{{ cluster }}-01"
+    home_node: "{{ cluster.name }}-01"
     home_port: e0c
     <<: *auth
     
