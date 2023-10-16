@@ -1,0 +1,113 @@
+---
+- set_fact:
+    auth: &auth
+      hostname: "{{ netapp_hostname }}"
+      username: "{{ netapp_username }}"
+      password: "{{ netapp_password }}"
+      https: true
+      validate_certs: false
+
+# - name: set timezone and location
+#   ignore_errors: true
+#   na_ontap_command:
+#     command: "{{ item }}"
+#     privilege: advanced
+#     use_rest: Never
+#     <<: *auth
+#   loop_control:
+#     label: 'Executing : {{ item | join(" ")}}'
+#   loop:
+#     - ["cluster", "date", "modify", "-timezone", "{{ timezone }}"]
+#     - ["system", "node", "modify", "-node", "*", "-location", "{{ location }}"]
+
+- name: Unlock User diag
+  na_ontap_user:
+    state: present
+    name: diag
+    applications: console
+    authentication_method: password
+    lock_user: false
+    role_name: admin
+    vserver: "{{ cluster.name }}"
+    <<: *auth
+  ignore_errors: true
+
+# - name: Add licenses
+#   na_ontap_license:
+#     state: present
+#     license_codes: "{{ cluster.license_codes }}"
+#     <<: *auth
+
+- name: Assign disks
+  na_ontap_disks:
+    node: "{{ cluster.name }}-01"
+    disk_count: 20
+    min_spares: 0
+    disk_type: FCAL
+    <<: *auth
+
+- name: create aggr1
+  na_ontap_aggregate:
+    state: present
+    name: "{{ cluster.name }}_01_SSD_1"
+    raid_type: raid_dp
+    disk_count: 13
+    raid_size: 13
+    nodes: "{{ cluster.name }}-01"
+    wait_for_online: true
+    time_out: 18000
+    service_state: online
+    <<: *auth
+
+# - name: create DNS on cluster
+#   na_ontap_dns:
+#     state: present
+#     vserver:  "{{ cluster.name }}"
+#     domains: "{{ dns.domains }}"
+#     nameservers: "{{ dns.servers}}"
+#     <<: *auth
+
+# - name: remove vlan port from broadcast domain
+#   netapp.ontap.na_ontap_broadcast_domain:
+#     state: absent
+#     name: Default-1
+#     mtu: 1500
+#     ipspace: Default
+#     ports: ['{{ nodes[0].name }}:e0d']
+#     <<: *auth
+
+# - name: create Broadcast domains
+#   netapp.ontap.na_ontap_broadcast_domain:
+#     state: present
+#     name: "vlan-{{ item }}"
+#     mtu: 1500
+#     ipspace: Default
+#     <<: *auth
+#   loop_control:
+#     label: 'Creating vlan {{ item }}'
+#   loop: "{{ cluster.vlans }}"
+
+# - name: create VLANs
+#   netapp.ontap.na_ontap_net_vlan:
+#     state: present
+#     vlanid: "{{ item }}"
+#     parent_interface: "{{cluster.vlan_port}}"
+#     node: "{{ nodes[0].name }}"
+#     broadcast_domain: "vlan-{{ item }}"
+#     ipspace: "Default"
+#     <<: *auth
+#   loop_control:
+#     label: 'Creating vlan {{ item }}'
+#   loop: "{{ cluster.vlans }}"
+
+# - name: add vlans to broadcast domain
+#   netapp.ontap.na_ontap_broadcast_domain:
+#     state: present
+#     name: "vlan-{{ item }}"
+#     mtu: 1500
+#     ipspace: Default
+#     ports: ["{{nodes[0].name}}:{{cluster.vlan_port}}-{{item}}"]
+#     <<: *auth
+#   loop_control:
+#     label: 'Creating broadcast domain vlan-{{ item }}'
+#   loop: "{{ cluster.vlans }}"

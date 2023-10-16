@@ -12,7 +12,9 @@
     - { role: lif, qtask: facts_ic1 }
     - { role: lif, qtask: create_ic }   
     - { role: lif, qtask: facts_ic2 }
-    - { role: lif, qtask: create_ic }         
+    - { role: lif, qtask: create_ic }    
+    - { role: aggregate, qtask: facts }
+    - { role: aggregate, qtask: create }             
     - { role: cluster_peer, qtask: facts }
     - { role: cluster_peer, qtask: create }      
     - { role: svm, qtask: facts_dr }
