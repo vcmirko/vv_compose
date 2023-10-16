@@ -11,11 +11,11 @@
     - { role: af, qtask: facts }  
     - { role: cluster_config, qtask: facts }
     - { role: cluster_config, qtask: create }             
-    - { role: cluster_peer, qtask: facts }
-    - { role: cluster_peer, qtask: create }      
     - { role: lif, qtask: facts_ic1 }
     - { role: lif, qtask: create_ic }   
     - { role: lif, qtask: facts_ic2 }
     - { role: lif, qtask: create_ic }    
+    - { role: cluster_peer, qtask: facts }
+    - { role: cluster_peer, qtask: create }   
     - { role: svm, qtask: facts_dr }
     - { role: svm, qtask: create_dr }    

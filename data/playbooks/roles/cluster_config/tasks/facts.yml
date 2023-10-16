@@ -4,3 +4,9 @@
   ansible.builtin.set_fact:
    cluster: "{{ (vars_default.cluster | default({})) | combine(vars_external.cluster2 | default({}) ,  recursive=True) }}"
 
+- name: Set naming facts
+  ansible.builtin.set_fact      :
+    # ansible_python_interpreter:   /usr/bin/python3
+    netapp_hostname             : "{{ cluster.management_ip }}"
+    netapp_username             : "{{ ontap_username }}"
+    netapp_password             : "{{ ontap_password }}"
