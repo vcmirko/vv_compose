@@ -8,10 +8,6 @@
     cluster: "{{ vars_default.cluster | default({}) | combine(vars_external.cluster1 | default({}),  recursive=True) }}"
     cluster_peer: "{{ vars_external.cluster_peer }}"
 
-# - name: debug lif after merge
-#   debug:
-#     var: cluster_peer
-
 - name: Set naming facts
   ansible.builtin.set_fact      :
     # ansible_python_interpreter:   /usr/bin/python3
