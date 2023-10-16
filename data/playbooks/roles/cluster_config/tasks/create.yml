@@ -19,7 +19,7 @@
     state: present
     interface_name: "{{ cluster }}_mgmt"
     vserver: "{{ cluster.name }}"
-    address: "{{ cluster_mgmt }}"
+    address: "{{ cluster.management_ip }}"
     netmask: "{{ cluster.subnet }}"
     role: cluster-mgmt
     home_node: "{{ cluster }}-01"
