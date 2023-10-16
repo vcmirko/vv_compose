@@ -26,7 +26,7 @@ def b2m(bytes_value, decimal_places=2):
 
 # Get aggregates using REST API
 def get_aggregates_rest(cluster_mgmt_ip, username, password):
-    url = f"https://{cluster_mgmt_ip}/api/storage/aggregates?fields=space.block_storage,volume_count,node.name"
+    url = f"https://{cluster_mgmt_ip}/api/storage/aggregates?fields=space.block_storage,node.name"
     log(f"GET {url}")
     response = requests.get(url, auth=(username, password), verify=False)
     response_json = response.json()
