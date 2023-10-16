@@ -13,7 +13,7 @@
   netapp.ontap.na_ontap_svm:
     state            : present
     name             : "{{ svm_name }}"
-    #allowed_protocols: "{{ svm_allowed_protocols }}"
+    #allowed_protocols: "{{ svm_allowed_protocols }}" # api bug ndmp error
     snapshot_policy  : "{{ svm_snapshot_policy }}"
     language         : "{{ svm_language    | default(omit) }}"
     comment          : "{{ svm_comment     | default(omit) }}"
@@ -24,7 +24,7 @@
     <<               : *auth
   delegate_to: 
   
-  ## Create svm
+  ## Set protocols svm
 - name: "Update svm {{ svm_name }}"      
   netapp.ontap.na_ontap_svm:
     state            : present

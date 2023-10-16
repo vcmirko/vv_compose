@@ -56,7 +56,6 @@
     nodes: "{{ cluster.name }}-01"
     wait_for_online: true
     time_out: 18000
-    service_state: online
     <<: *auth
 
 # - name: create DNS on cluster
