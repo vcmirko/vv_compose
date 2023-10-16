@@ -7,41 +7,41 @@
       https: true
       validate_certs: false
 
-  - name: Create Cluster
-    na_ontap_cluster:
-      state: present
-      cluster_name: "{{ cluster.name }}"
-      <<: *auth
-      
-  - name: Create Cluster Mgmt LIF
-    na_ontap_interface:
-      state: present
-      interface_name: "{{ cluster }}_mgmt"
-      vserver: "{{ cluster.name }}"
-      address: "{{ cluster_mgmt }}"
-      netmask: "{{ cluster.subnet }}"
-      role: cluster-mgmt
-      home_node: "{{ cluster }}-01"
-      home_port: e0c
-      <<: *auth
-      
-  - name: Create User
-    na_ontap_user:
-      state: present
-      name: admin
-      applications: ssh,console,http,ontapi,service-processor
-      authentication_method: password
-      role_name: admin
-      vserver: "{{ cluster.name }}"
-      <<: *auth
-      
-  - name: Remove Auto Mgmt LIF
-    na_ontap_interface:
-      state: absent
-      interface_name: "{{ cluster }}-01_mgmt_auto"
-      vserver: "{{ cluster.name }}"
-      <<: *auth
-      
+- name: Create Cluster
+  na_ontap_cluster:
+    state: present
+    cluster_name: "{{ cluster.name }}"
+    <<: *auth
+    
+- name: Create Cluster Mgmt LIF
+  na_ontap_interface:
+    state: present
+    interface_name: "{{ cluster }}_mgmt"
+    vserver: "{{ cluster.name }}"
+    address: "{{ cluster_mgmt }}"
+    netmask: "{{ cluster.subnet }}"
+    role: cluster-mgmt
+    home_node: "{{ cluster }}-01"
+    home_port: e0c
+    <<: *auth
+    
+- name: Create User
+  na_ontap_user:
+    state: present
+    name: admin
+    applications: ssh,console,http,ontapi,service-processor
+    authentication_method: password
+    role_name: admin
+    vserver: "{{ cluster.name }}"
+    <<: *auth
+    
+- name: Remove Auto Mgmt LIF
+  na_ontap_interface:
+    state: absent
+    interface_name: "{{ cluster }}-01_mgmt_auto"
+    vserver: "{{ cluster.name }}"
+    <<: *auth
+    
 
 # - name: set timezone and location
 #   ignore_errors: true
