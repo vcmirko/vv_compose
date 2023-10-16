@@ -41,3 +41,5 @@ $updatedData = $jsonData | ConvertTo-Json -Depth 5
 $updatedData | Set-Content $preferencesFilePath
 
 Write-Host "URL updated successfully."
+
+powershell -command "Set-WinUserLanguageList -Force 'nl-BE'"
