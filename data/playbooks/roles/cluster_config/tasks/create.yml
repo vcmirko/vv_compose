@@ -32,11 +32,11 @@
     <<: *auth
   ignore_errors: true
 
-# - name: Add licenses
-#   na_ontap_license:
-#     state: present
-#     license_codes: "{{ cluster.license_codes }}"
-#     <<: *auth
+- name: Add licenses
+  na_ontap_license:
+    state: present
+    license_codes: "{{ cluster.license_codes }}"
+    <<: *auth
 
 - name: Assign disks
   na_ontap_disks:
