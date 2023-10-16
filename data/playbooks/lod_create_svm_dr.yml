@@ -1,5 +1,5 @@
 ---
-- name: "Bsh Create Migration Svm"
+- name: "Lod Create Migration Svm"
   hosts: localhost
   become: false
   gather_facts: false
@@ -9,8 +9,6 @@
 
   roles:
     - { role: af, qtask: facts }  
-    - { role: cluster_config, qtask: facts }
-    - { role: cluster_config, qtask: create }             
     - { role: lif, qtask: facts_ic1 }
     - { role: lif, qtask: create_ic }   
     - { role: lif, qtask: facts_ic2 }
