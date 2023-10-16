@@ -1,6 +1,6 @@
 vars_default:
   cluster:
-    licenses:
+    license_codes:
      - YBQYFAINITEVQEAAAAAAAAAAAAAA 
      - WQLCHAINITEVQEAAAAAAAAAAAAAA 
      - ILJRHAINITEVQEAAAAAAAAAAAAAA 
