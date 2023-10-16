@@ -18,10 +18,10 @@
   na_ontap_interface:
     state: present
     interface_name: "{{ cluster }}_mgmt"
-    vserver: "{{ cluster.name }}"
     address: "{{ cluster.management_ip }}"
     netmask: "{{ cluster.subnet }}"
     role: cluster-mgmt
+    ipspace: Default
     home_node: "{{ cluster }}-01"
     home_port: e0c
     <<: *auth
