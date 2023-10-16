@@ -20,7 +20,7 @@
     interface_name: "{{ cluster }}_mgmt"
     address: "{{ cluster.management_ip }}"
     netmask: "{{ cluster.subnet }}"
-    role: cluster-mgmt
+    service_policy: default-management
     ipspace: Default
     home_node: "{{ cluster }}-01"
     home_port: e0c
