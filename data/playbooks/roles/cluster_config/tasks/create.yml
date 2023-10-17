@@ -6,7 +6,7 @@
       password: "{{ netapp_password }}"
       https: true
       validate_certs: false
-      use_rest: always
+      use_rest: auto
 
 - name: Create Cluster
   na_ontap_cluster:
