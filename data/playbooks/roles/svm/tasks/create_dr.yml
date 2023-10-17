@@ -34,6 +34,60 @@
     <<               : *auth
   delegate_to: localhost  
 
+  ## Create mgmt LIF
+- name: Create mgmt Network LIF
+  netapp.ontap.na_ontap_interface:
+      state                : present
+      address              : "192.168.0.142"
+      interface_name       : "cifs_lif"
+      vserver              : "{{ svm_name }}"
+      admin_status         : "up"
+      home_node            : "{{ cluster2.name }}-01"
+      home_port            : "e0c"
+      is_auto_revert       : true
+      netmask              : "255.255.255.0"
+      service_policy       : "default-data"
+      ipspace              : "Default"
+      <<                   : *auth
+  delegate_to: localhost
+
+
+  ## Create dns
+- name: create dns
+  netapp.ontap.na_ontap_dns:
+    state          : present
+    vserver        : "{{ svm_name }}"
+    domains        : "demo.local"
+    nameservers    : "192.168.0.253"
+    <<             : *auth
+  delegate_to: localhost
+
+
+  ## Create route
+- name: create route
+  netapp.ontap.na_ontap_net_routes:
+    state      : present
+    vserver    : "{{ svm_name }}"
+    destination: "0.0.0.0/0"
+    gateway    : "192.168.0.1"
+    <<         : *auth
+  delegate_to: localhost
+
+
+  ## Enable Cifs
+- name: "Join in AD"      
+  netapp.ontap.na_ontap_cifs_server:
+    state          : present
+    vserver        : "{{ svm_name }}"
+    name           : "{{ svm_name }}"
+    admin_user_name: "administrator"
+    admin_password : "Netapp1!"
+    domain         : "demo.local"
+    service_state  : "started"
+    force          : True
+    <<             : *auth
+  delegate_to: localhost
+
 - name: "Create vserver peer {{ svm.name }} -> {{ svm_name }}"  
   netapp.ontap.na_ontap_vserver_peer:
     state                       : present
