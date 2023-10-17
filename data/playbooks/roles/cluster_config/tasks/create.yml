@@ -86,8 +86,8 @@
     state: present
     name: "{{ cluster.name }}_01_SSD_1"
     raid_type: raid_dp
-    disk_count: 13
-    raid_size: 13
+    disk_count: 6
+    raid_size: 6
     nodes: "{{ cluster.name }}-01"
     wait_for_online: true
     time_out: 18000
