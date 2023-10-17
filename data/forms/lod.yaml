@@ -180,6 +180,10 @@
       group: Resource
       required: true
       model: vars_external.volumes
+    - name: ipaddress
+      type: text
+      label: Ip address
+      model: vars_external.svm.address
     - name: template
       type: local_out
       model: vars_external.template
