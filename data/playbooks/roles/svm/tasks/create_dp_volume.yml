@@ -46,6 +46,7 @@
     state: present
     vserver:                 "{{ svm_name }}"    
     name:                    "{{ volume.name }}"
+    junction_path:           "/{{ volume.name }}"
     aggregate_name:          "{{ aggr_lookup.aggregate.name | default(omit) }}"
     size:                    "{{ volume.size                   | default(omit) }}"
     size_unit:               "{{ volume.size_unit              | default(omit) }}"
@@ -57,6 +58,16 @@
     type:                    "{{ volume.type                   | default(omit) }}"
     snapshot_policy:         "{{ volume.snapshot_policy.name   | default(omit) }}"
     <<: *auth
+
+  - name: Create CIFS share
+    na_ontap_cifs:
+      state: present
+      share_name: "{{ volume.name }}"
+      path: "/{{ volume.name }}"
+      vserver:   "{{ svm_name }}"         
+      share_properties: browsable,oplocks
+      symlink_properties: read_only,enable
+      <<: *login
 
 - name: "Create snapmirror for volume {{ volume.name }}"  
   netapp.ontap.na_ontap_snapmirror:

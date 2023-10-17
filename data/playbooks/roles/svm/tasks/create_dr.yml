@@ -82,9 +82,8 @@
     name           : "{{ svm_name }}"
     admin_user_name: "administrator"
     admin_password : "Netapp1!"
-    domain         : "demo.local"
+    domain         : "demo.netapp.com"
     service_state  : "started"
-    force          : True
     <<             : *auth
   delegate_to: localhost
 
