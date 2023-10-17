@@ -46,7 +46,7 @@
       home_port            : "e0c"
       is_auto_revert       : true
       netmask              : "255.255.255.0"
-      service_policy       : "default-data"
+      service_policy       : "default-data-files"
       ipspace              : "Default"
       <<                   : *auth
   delegate_to: localhost
