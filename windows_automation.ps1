@@ -1,3 +1,10 @@
+$keyboard = "What keyboard layout do you want ? ex. nl-BE"
+Write-Host "Setting keyboard to Belgian" -ForegroundColor Magenta
+powershell -command "Set-WinUserLanguageList -Force '$keyboard'"
+Write-Host "Keyboard set!"
+
+$dummy = Read-Host "..."
+
 Write-Host "Creating bookmark for Ansible Forms" -ForegroundColor Magenta
 # Define the path to your Chrome bookmarks file
 $bookmarksFilePath = "C:\Users\Administrator.DEMO\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
@@ -26,8 +33,8 @@ $updatedData | Set-Content $bookmarksFilePath
 
 Write-Host "Bookmark added successfully."
 
-$dummy = Read-Host "Press any key to continue"
-Write-Host "Setting homepage to Volvo.com"
+$dummy = Read-Host "..."
+Write-Host "Setting homepage to Volvo.com" -ForegroundColor Magenta
 # Define the path to the "preferences" file
 $preferencesFilePath = "C:\Users\Administrator.DEMO\AppData\Local\Google\Chrome\User Data\Default\Preferences"
 
@@ -44,11 +51,8 @@ $updatedData = $jsonData | ConvertTo-Json -Depth 5
 $updatedData | Set-Content $preferencesFilePath
 
 Write-Host "URL updated successfully."
-$dummy = Read-Host "Press any key to continue"
-Write-Host "Setting keyboard to Belgian" -ForegroundColor Magenta
-powershell -command "Set-WinUserLanguageList -Force 'nl-BE'"
 
-$dummy = Read-Host "Press any key to continue"
+$dummy = Read-Host "... install Ansible Forms now ..."
 Write-Host "Creating loopback credentials for self-automation"
 add-type @"
     using System.Net;
@@ -138,3 +142,5 @@ if ($loginResponse.token) {
 } else {
     Write-Host "Login failed. Unable to obtain an access token."
 }
+
+$dummy = Read-Host "Press any key to continue"
