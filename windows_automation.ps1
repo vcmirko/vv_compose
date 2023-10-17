@@ -1,4 +1,4 @@
-$keyboard = "What keyboard layout do you want ? ex. nl-BE"
+$keyboard = Read-Host "What keyboard layout do you want ? ex. nl-BE" 
 Write-Host "Setting keyboard to Belgian" -ForegroundColor Magenta
 powershell -command "Set-WinUserLanguageList -Force '$keyboard'"
 Write-Host "Keyboard set!"
