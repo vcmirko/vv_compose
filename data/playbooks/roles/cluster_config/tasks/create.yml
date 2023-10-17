@@ -86,9 +86,8 @@
     state: present
     name: "{{ cluster.name }}_01_SSD_1"
     raid_type: raid_dp
-    disk_size_with_unit: 12g
-    disk_count: 6
-    raid_size: 6
+    disk_list: VMw-1.1.P1,VMw-1.2.P1,VMw-1.3.P1,VMw-1.4.P1,VMw-1.5.P1,VMw-1.6.P1
+    raid_size: 13
     nodes: "{{ cluster.name }}-01"
     wait_for_online: true
     time_out: 18000
