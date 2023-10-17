@@ -87,6 +87,7 @@
     name: "{{ cluster.name }}_01_SSD_1"
     raid_type: raid_dp
     disk_count: 5
+    disk_type: SSD
     raid_size: 13
     nodes: "{{ cluster.name }}-01"
     wait_for_online: true
