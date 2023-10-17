@@ -67,7 +67,7 @@
     vserver:   "{{ svm_name }}"         
     share_properties: browsable,oplocks
     symlink_properties: read_only,enable
-    <<: *login
+    <<: *auth
 
 - name: "Create snapmirror for volume {{ volume.name }}"  
   netapp.ontap.na_ontap_snapmirror:
