@@ -59,6 +59,14 @@
     snapshot_policy:         "{{ volume.snapshot_policy.name   | default(omit) }}"
     <<: *auth
 
+- name: "Mount volume {{ volume.name }}"
+  netapp.ontap.na_ontap_volume:
+    state: present
+    vserver:                 "{{ svm_name }}"    
+    name:                    "{{ volume.name }}"
+    junction_path:           "/{{ volume.name }}"
+    <<: *auth
+
 - name: Create CIFS share
   na_ontap_cifs:
     state: present
