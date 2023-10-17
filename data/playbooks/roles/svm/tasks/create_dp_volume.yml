@@ -46,7 +46,6 @@
     state: present
     vserver:                 "{{ svm_name }}"    
     name:                    "{{ volume.name }}"
-    junction_path:           "/{{ volume.name }}"
     aggregate_name:          "{{ aggr_lookup.aggregate.name | default(omit) }}"
     size:                    "{{ volume.size                   | default(omit) }}"
     size_unit:               "{{ volume.size_unit              | default(omit) }}"
