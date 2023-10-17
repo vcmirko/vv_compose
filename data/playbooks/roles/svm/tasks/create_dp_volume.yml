@@ -65,8 +65,6 @@
     share_name: "{{ volume.name }}"
     path: "/{{ volume.name }}"
     vserver:   "{{ svm_name }}"         
-    share_properties: browsable,oplocks
-    symlink_properties: read_only,enable
     <<: *auth
 
 - name: "Create snapmirror for volume {{ volume.name }}"  
