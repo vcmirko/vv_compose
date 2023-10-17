@@ -58,22 +58,6 @@
     snapshot_policy:         "{{ volume.snapshot_policy.name   | default(omit) }}"
     <<: *auth
 
-- name: "Mount volume {{ volume.name }}"
-  netapp.ontap.na_ontap_volume:
-    state: present
-    vserver:                 "{{ svm_name }}"    
-    name:                    "{{ volume.name }}"
-    junction_path:           "/{{ volume.name }}"
-    <<: *auth
-
-- name: Create CIFS share
-  na_ontap_cifs:
-    state: present
-    share_name: "{{ volume.name }}"
-    path: "/{{ volume.name }}"
-    vserver:   "{{ svm_name }}"         
-    <<: *auth
-
 - name: "Create snapmirror for volume {{ volume.name }}"  
   netapp.ontap.na_ontap_snapmirror:
     state                       : present
@@ -87,3 +71,23 @@
     policy                      : "{{ snapmirror_policy       | default(omit) }}"
     initialize: True
     <<: *auth
+
+- name: "Mount volume {{ volume.name }}"
+  netapp.ontap.na_ontap_volume:
+    state: present
+    vserver:                 "{{ svm_name }}"    
+    name:                    "{{ volume.name }}"
+    junction_path:           "/{{ volume.name }}"
+    <<: *auth
+  register: result
+  retries: 10
+  delay: 5
+  until: result is not failed    
+
+- name: Create CIFS share
+  na_ontap_cifs:
+    state: present
+    share_name: "{{ volume.name }}"
+    path: "/{{ volume.name }}"
+    vserver:   "{{ svm_name }}"         
+    <<: *auth    
