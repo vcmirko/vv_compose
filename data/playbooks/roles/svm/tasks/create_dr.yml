@@ -84,7 +84,6 @@
     admin_password : "Netapp1!"
     domain         : "demo.local"
     service_state  : "started"
-    force          : True
     <<             : *auth
   delegate_to: localhost
 
